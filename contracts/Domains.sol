@@ -22,6 +22,7 @@ contract Domains is ERC721URIStorage {
 
   mapping(string => address) public domains;
   mapping(string => string) public records;
+  mapping (uint => string) public names;
 
   address payable public owner;
 
@@ -115,5 +116,14 @@ contract Domains is ERC721URIStorage {
 
     (bool success, ) = msg.sender.call{value: amount}("");
     require(success, "Failed to withdraw Matic");
+  }
+
+  function getAllNames() public view returns (string[] memory) {
+    string[] memory allNames = new string[](_tokenIds.current());
+    for (uint i = 0; i < _tokenIds.current(); i++) {
+      allNames[i] = names[i];
+    }
+
+    return allNames;
   }
 }
